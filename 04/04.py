@@ -10,6 +10,8 @@ class Card:
     numbers: list[int]
     valid_numbers: list[int]
 
+    _winning: set[int] | None = None
+
     @staticmethod
     def from_line(line: str) -> "Card":
         num, spl = line.split(": ")
@@ -24,10 +26,12 @@ class Card:
 
     @property
     def winning_numbers(self) -> set[int]:
+        if self._winning is not None:
+            return self._winning
         w, l = set(self.valid_numbers), set(self.numbers)
-        return w & l
+        self._winning = w & l
+        return self._winning
 
-    @lru_cache()
     def part_one(self):
         out = 0
         for _ in self.winning_numbers:
@@ -75,5 +79,5 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11"""
 
     cards = [Card.from_line(l) for l in EXAMPLE.splitlines()]
 
-    # print(part_one(cards))
+    print(part_one(cards))
     print(part_2(cards))
