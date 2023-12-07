@@ -134,22 +134,6 @@ class Maps:
 
         return next
 
-        for r in self.seed_soil.ranges:
-            if (v := r.lookup(seed)) is not None:
-                soil = v
-                break
-        else:
-            soil = seed
-
-        fertilizer = self.soil_fertilizer.lookup(soil, soil)
-        water = self.fertilizer_water.lookup(fertilizer, fertilizer)
-        light = self.water_light.lookup(water, water)
-        temperature = self.light_temperature.lookup(light, light)
-        humidity = self.temperature_humidity.lookup(temperature, temperature)
-        location = self.humidity_location.lookup(humidity, humidity)
-
-        return location
-
 
 def part_1(seeds: list[int], maps: Maps):
     return min(maps.identify_seed(s).location for s in seeds)
